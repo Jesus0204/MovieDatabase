@@ -5,18 +5,23 @@ using namespace std;
 
 int main(){
 
-Movie_Database Yeesus_movies;
+    // Creas la base de datos vacía con el arreglo movies[]
+    Movie_Database Yeesus_movies;
 
-Yeesus_movies.agrega_movies();
+    // Agrega las 3 películas al arreglo
+    Yeesus_movies.agrega_movies();
 
-cout << "Antes de ordenar" << endl;
+    cout << "Antes de ordenar" << endl;
 
-Yeesus_movies.print_movies();
+    // Imprime películas antes de ordenar
+    Yeesus_movies.print_movies();
 
-Yeesus_movies.sort_num(4);
+    // Llama el selection sort para ordenarlo con review
+    Yeesus_movies.sort_num(5);
 
-cout << "Despues de ordenar;" << endl;
+    cout << "Despues de ordenar;" << endl;
 
-Yeesus_movies.print_movies();
+    // Imprime el arreglo despues de ordenar
+    Yeesus_movies.print_movies();
 
 }

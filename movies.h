@@ -7,17 +7,20 @@
 
 /*
  * Para este primer avance, voy a hacer una clase llamada Movie
- * Esta clase va a tener todos los atributos (nombre, duracion, director, scare o meter)
+ * Esta clase va a tener todos los atributos (nombre, duracion, director, etc)
  * Y en este primer avance voy a ordenar a las películas en base a lo que se pida ordenar
  */
 
+// Librerías
 #ifndef MOVIES_H
 #define MOVIES_H
 #include <iostream>
 
 using namespace std;
 
+// Clase movie que tiene los datos de la película, junto con sus constructores y getters
 class Movie {
+    // Atributos de la clase
     private: 
         string nombre;
         int duracion;
@@ -25,8 +28,11 @@ class Movie {
         int review;
         int year;
     public: 
+        // Constructores
         Movie(): nombre(""), director(""), duracion(0.0), review(0.0), year(0){};
         Movie(string nom, int dur, string direct, int rev, float sca, int ye): nombre(nom), duracion(dur), director(direct), review(rev), year(ye){};
+
+        // Métodos de la clase
         string get_nombre();
         int get_duracion();
         string get_director();
@@ -34,33 +40,57 @@ class Movie {
         int get_year();
 };
 
+/**
+ * getter nombre
+ * @return string: nombre de la película
+ */
 string Movie :: get_nombre(){
     return nombre;
 }
 
+/**
+ * getter duración
+ * @return int: duración en minutos de la película
+ */
 int Movie :: get_duracion(){
     return duracion;
 }
 
+/**
+ * getter director
+ * @return string: director de la película
+ */
 string Movie :: get_director(){
     return director;
 }
 
+/**
+ * getter review
+ * @return int: review (en % de 100) de la película
+ */
 int Movie :: get_review(){
     return review;
 }
 
+/**
+ * getter year
+ * @return int: año en el que se filmó la película
+ */
 int Movie :: get_year(){
     return year;
 }
 
-
+// Clase con el arreglo de las películas, y algoritmos de ordenamiento junto con una función de print
 class Movie_Database {
+    // Atributos de la clase
     private: 
         Movie movies[100];
         int num_movie;
     public: 
+        // Constructor por default
         Movie_Database(): num_movie(0){};
+
+        // Métodos de la clase
         void agrega_movies();
         void swap_num(int i, int j);
         int sort_choice_num(int min, int sort_choice);
@@ -69,6 +99,14 @@ class Movie_Database {
         void print_movies();
 };
 
+/**
+ * agrega_movies genera objetos en movies[]
+ *
+ * genera objetos de tipo Movie y los guarda en movies[] 
+ * (arreglo de objetos) para tener qué ordenar
+ * @param None
+ * @return
+ */
 void Movie_Database :: agrega_movies(){
     movies[num_movie] = Movie("The Conjuring", 112, "James Wan", 86, 3.5, 2013);
     num_movie++;
@@ -78,12 +116,24 @@ void Movie_Database :: agrega_movies(){
     num_movie++;
 }
 
+/**
+ * Cambia los elementos en el arreglo de acuerdo a sus indices
+ * @param int num_1 (primer indice a cambiar)
+ * @param int num_2 (Segundo indice a cambiar)
+ * @return
+ */
 void Movie_Database :: swap_num(int num_1, int num_2) {
     Movie aux = movies[num_1];
 	movies[num_1] = movies[num_2];
 	movies[num_2] = aux;
 }
 
+/**
+ * Dependiendo de lo que se quiera ordenar, saca los elementos del arreglo
+ * @param int num (indice a buscar)
+ * @param int sort_choice (caso que se quiere ordenar)
+ * @return int - elemento del arreglo que se regresa (un número)
+ */
 int Movie_Database :: sort_choice_num(int num, int sort_choice){
     // Opcion 2 para duración
     if (sort_choice == 2){
@@ -99,7 +149,11 @@ int Movie_Database :: sort_choice_num(int num, int sort_choice){
     }
 }
 
-// Se usa un selection sort
+/**
+ * Hace un selection sort con el arreglo dependiendo de lo que quieras ordenar
+ * @param int sort_choice (Escenario en el que se quiere ordenar)
+ * @return
+ */
 void Movie_Database :: sort_num(int sort_choice){
     int min;
 
@@ -120,10 +174,13 @@ void Movie_Database :: sort_num(int sort_choice){
 	}
 }
 
-void Movie_Database :: sort_text(){
-
-}
-
+/**
+ *
+ * Imprime todas las características que hay en cada película que se encuentra 
+ * en la lista movies[]. 
+ * @param None
+ * @return
+ */
 void Movie_Database :: print_movies(){
     for (int i = 0; i < num_movie; i++){
         cout << "Movie #" << i + 1 << endl;
