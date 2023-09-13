@@ -30,7 +30,7 @@ class Movie {
     public: 
         // Constructores
         Movie(): nombre(""), director(""), duracion(0.0), review(0.0), year(0){};
-        Movie(string nom, int dur, string direct, int rev, float sca, int ye): nombre(nom), duracion(dur), director(direct), review(rev), year(ye){};
+        Movie(string nom, int dur, string direct, int rev, int ye): nombre(nom), duracion(dur), director(direct), review(rev), year(ye){};
 
         // Métodos de la clase
         string get_nombre();
@@ -93,9 +93,9 @@ class Movie_Database {
         // Métodos de la clase
         void agrega_movies();
         void swap_num(int i, int j);
-        int sort_choice_num(int min, int sort_choice);
+        int sort_choice_num(int min, int sort_choice, int letra);
         void sort_num(int sort_choice);
-        void sort_text();
+        void sort_text(int sort_choice);
         void print_movies();
 };
 
@@ -108,11 +108,15 @@ class Movie_Database {
  * @return
  */
 void Movie_Database :: agrega_movies(){
-    movies[num_movie] = Movie("The Conjuring", 112, "James Wan", 86, 3.5, 2013);
+    movies[num_movie] = Movie("The Conjuring", 112, "James Wan", 86, 2013);
     num_movie++;
-    movies[num_movie] = Movie("Star Wars: Revenge of the Sith", 140, "George Lucas", 100, 1.0, 2005);
+    movies[num_movie] = Movie("Star Wars: Revenge of the Sith", 140, "George Lucas", 100, 2005);
     num_movie++;
-    movies[num_movie] = Movie("Oppenheimer", 180, "Christopher Nolan", 93, 2.5, 2023);
+    movies[num_movie] = Movie("Oppenheimer", 180, "Christopher Nolan", 93, 2023);
+    num_movie++;
+    movies[num_movie] = Movie("Shrek II", 105, "Andrew Adamson", 95, 2004);
+    num_movie++;
+    movies[num_movie] = Movie("Avengers", 143, "Joss Whedon", 90, 2012);
     num_movie++;
 }
 
@@ -134,10 +138,16 @@ void Movie_Database :: swap_num(int num_1, int num_2) {
  * @param int sort_choice (caso que se quiere ordenar)
  * @return int - elemento del arreglo que se regresa (un número)
  */
-int Movie_Database :: sort_choice_num(int num, int sort_choice){
+int Movie_Database :: sort_choice_num(int num, int sort_choice, int letra){
+    if (sort_choice == 1){
+        return movies[num].get_nombre()[letra];
+    }
     // Opcion 2 para duración
-    if (sort_choice == 2){
+    else if (sort_choice == 2){
         return movies[num].get_duracion();
+    }
+    else if (sort_choice == 3){
+        return movies[num].get_director()[letra];
     }
     // Opción 4 para review
     else if (sort_choice == 4){
@@ -165,9 +175,42 @@ void Movie_Database :: sort_num(int sort_choice){
 		// Buscas el elemento más chico, de todo el arreglo. 
 		// Se empieza con el índice del arreglo que no está ordenado. Esto lo tiene el otro ciclo
 		for(int j = i; j < num_movie; j++){
-			if (sort_choice_num(min, sort_choice) > sort_choice_num(j, sort_choice)){
+			if (sort_choice_num(min, sort_choice, 0) > sort_choice_num(j, sort_choice, 0)){
 				min = j;
 			}
+		}
+		// Después de encontrarlo, haces el swap
+		swap_num(i, min);
+	}
+}
+
+/**
+ * Hace un selection sort con el arreglo pero modificado para texto
+ * @param int sort_choice (Escenario en el que se quiere ordenar)
+ * @return
+ */
+void Movie_Database :: sort_text(int sort_choice){
+    int min;
+
+	// Como se ordena en orden, este se ordena de más chico al más grande
+	// Como hace el swap con el más chico, al final de una iteración ese indice ya está ordenado
+	for(int i = 0; i < num_movie; i++){
+		// Empiezas en el indice i, ya que lo que está antes ya está ordenado
+		min = i;
+		// Buscas el elemento más chico, de todo el arreglo. 
+		// Se empieza con el índice del arreglo que no está ordenado. Esto lo tiene el otro ciclo
+		for(int j = i; j < num_movie; j++){
+            // Usas un ciclo for que encuentre la primera letra diferente de la palabra. 
+            // Solo entra al ciclo cuando min y j no son iguales, ya que si no se cicla el programa
+            int count_letra = 0;
+            for (int letra = 0; sort_choice_num(min, sort_choice, letra) == sort_choice_num(j, sort_choice, letra) && min != j; letra++){ 
+                count_letra++;
+            }
+
+            // Ya que encontro la primera letra diferente, haces la comparación para el min
+            if (sort_choice_num(min, sort_choice, count_letra) > sort_choice_num(j, sort_choice, count_letra)){
+                min = j;
+            }
 		}
 		// Después de encontrarlo, haces el swap
 		swap_num(i, min);
@@ -191,6 +234,5 @@ void Movie_Database :: print_movies(){
         cout << "Year: " << movies[i].get_year() << endl << endl << endl;
     }
 }
-
 
 #endif
