@@ -85,18 +85,22 @@ class Movie_Database {
     // Atributos de la clase
     private: 
         Movie movies[100];
-        int num_movie;
+        int movies_size;
     public: 
         // Constructor por default
-        Movie_Database(): num_movie(0){};
+        Movie_Database(): movies_size(0){};
 
         // Métodos de la clase
         void agrega_movies();
+        void agrega_movie_user();
+        void add_movie_prueba(Movie prueba);
         void swap_num(int i, int j);
+        void sort_choice(int sort_choice);
         int sort_choice_num(int min, int sort_choice, int letra);
         void sort_num(int sort_choice);
         void sort_text(int sort_choice);
         void print_movies();
+        void print_element(int sort_choice);
 };
 
 /**
@@ -108,16 +112,60 @@ class Movie_Database {
  * @return
  */
 void Movie_Database :: agrega_movies(){
-    movies[num_movie] = Movie("The Conjuring", 112, "James Wan", 86, 2013);
-    num_movie++;
-    movies[num_movie] = Movie("Star Wars: Revenge of the Sith", 140, "George Lucas", 100, 2005);
-    num_movie++;
-    movies[num_movie] = Movie("Oppenheimer", 180, "Christopher Nolan", 93, 2023);
-    num_movie++;
-    movies[num_movie] = Movie("Shrek II", 105, "Andrew Adamson", 95, 2004);
-    num_movie++;
-    movies[num_movie] = Movie("Avengers", 143, "Joss Whedon", 90, 2012);
-    num_movie++;
+    movies[movies_size] = Movie("The Conjuring", 112, "James Wan", 86, 2013);
+    movies_size++;
+    movies[movies_size] = Movie("Star Wars: Revenge of the Sith", 140, "George Lucas", 100, 2005);
+    movies_size++;
+    movies[movies_size] = Movie("Oppenheimer", 180, "Christopher Nolan", 93, 2023);
+    movies_size++;
+    movies[movies_size] = Movie("Shrek II", 105, "Andrew Adamson", 95, 2004);
+    movies_size++;
+    movies[movies_size] = Movie("Avengers", 143, "Joss Whedon", 90, 2012);
+    movies_size++;
+}
+
+/**
+ * agrega_movies_user agrega la película de la elección del usuario a la base de datos
+ *
+ * @param None
+ * @return
+ */
+void Movie_Database :: agrega_movie_user(){
+    // Declaras las variables donde se guardan los datos
+    string name, dir;
+    int dur, rev, ye;
+
+    cout << "\nPor favor escribe el nombre de la película: ";
+    // Se agrega el getline para que el input pueda tener espacio y no se cicle
+    getline(cin.ignore(100, '\n'), name);
+
+    cout << "\nPor favor escribe la duración de la película en minutos (num): ";
+    cin >> dur;
+
+    cout << "\nPor favor escribe el director de la película: ";
+    getline(cin.ignore(100, '\n'), dir);
+
+    cout << "\nPor favor escribe el review de la película en '%' del 1 al 100: ";
+    cin >> rev;
+
+    cout << "\nPor favor escribe el año que la película salió (num): ";
+    cin >> ye;
+
+    // Creas la película y la agregas al database
+    movies[movies_size] = Movie(name, dur, dir, rev, ye);
+    movies_size++;
+}
+
+/**
+ * add_movie_Prueba agrega la película que se creó afuera al arreglo con agregación
+ * Mayormente se usa para crear películas con solo un dato y probar el ordenamiento
+ *
+ * @param Movie Le pasas la "Película" para que la agregue a la lista
+ * @return
+ */
+void Movie_Database :: add_movie_prueba(Movie Prueba){
+    movies[movies_size] = Prueba;
+    movies_size++;
 }
 
 /**
@@ -133,9 +181,24 @@ void Movie_Database :: swap_num(int num_1, int num_2) {
 }
 
 /**
+ * La función que decide cuál de los dos algoritmos de ordenamiento usa (texto o número)
+ * @param int sort_choice (caso que se quiere ordenar)
+ * @return
+ */
+void Movie_Database :: sort_choice(int sort_choice) {
+    if (sort_choice == 1 || sort_choice == 3){ 
+        sort_text(sort_choice);
+    }
+    else if (sort_choice == 2 || sort_choice == 4 || sort_choice == 5) {
+        sort_num(sort_choice);
+    }
+}
+
+/**
  * Dependiendo de lo que se quiera ordenar, saca los elementos del arreglo
  * @param int num (indice a buscar)
  * @param int sort_choice (caso que se quiere ordenar)
+ * @param int letra (letra de la palabra que se está trabajando)
  * @return int - elemento del arreglo que se regresa (un número)
  */
 int Movie_Database :: sort_choice_num(int num, int sort_choice, int letra){
@@ -157,6 +220,8 @@ int Movie_Database :: sort_choice_num(int num, int sort_choice, int letra){
     else if (sort_choice == 5) {
         return movies[num].get_year();
     }
+    // Para evitar el warning
+    return 0;
 }
 
 /**
@@ -169,12 +234,12 @@ void Movie_Database :: sort_num(int sort_choice){
 
 	// Como se ordena en orden, este se ordena de más chico al más grande
 	// Como hace el swap con el más chico, al final de una iteración ese indice ya está ordenado
-	for(int i = 0; i < num_movie; i++){
+	for(int i = 0; i < movies_size; i++){
 		// Empiezas en el indice i, ya que lo que está antes ya está ordenado
 		min = i;
 		// Buscas el elemento más chico, de todo el arreglo. 
 		// Se empieza con el índice del arreglo que no está ordenado. Esto lo tiene el otro ciclo
-		for(int j = i; j < num_movie; j++){
+		for(int j = i; j < movies_size; j++){
 			if (sort_choice_num(min, sort_choice, 0) > sort_choice_num(j, sort_choice, 0)){
 				min = j;
 			}
@@ -194,12 +259,12 @@ void Movie_Database :: sort_text(int sort_choice){
 
 	// Como se ordena en orden, este se ordena de más chico al más grande
 	// Como hace el swap con el más chico, al final de una iteración ese indice ya está ordenado
-	for(int i = 0; i < num_movie; i++){
+	for(int i = 0; i < movies_size; i++){
 		// Empiezas en el indice i, ya que lo que está antes ya está ordenado
 		min = i;
 		// Buscas el elemento más chico, de todo el arreglo. 
 		// Se empieza con el índice del arreglo que no está ordenado. Esto lo tiene el otro ciclo
-		for(int j = i; j < num_movie; j++){
+		for(int j = i; j < movies_size; j++){
             // Usas un ciclo for que encuentre la primera letra diferente de la palabra. 
             // Solo entra al ciclo cuando min y j no son iguales, ya que si no se cicla el programa
             int count_letra = 0;
@@ -225,13 +290,34 @@ void Movie_Database :: sort_text(int sort_choice){
  * @return
  */
 void Movie_Database :: print_movies(){
-    for (int i = 0; i < num_movie; i++){
-        cout << "Movie #" << i + 1 << endl;
+    for (int i = 0; i < movies_size; i++){
+        cout << "\nMovie #" << i + 1 << endl;
         cout << "Nombre: " << movies[i].get_nombre() << endl;
         cout << "Duración: " << movies[i].get_duracion() << " min" << endl;
         cout << "Director: " << movies[i].get_director() << endl;
         cout << "Review: " << movies[i].get_review() << "%" << endl;
-        cout << "Year: " << movies[i].get_year() << endl << endl << endl;
+        cout << "Year: " << movies[i].get_year() << endl << endl;
+    }
+}
+
+/**
+ * Imprime un solo atributo. La función se usa para pruebas entonces
+ * solo se usa con el nombre para comparar el texto, y duración para números
+ * @param int sort_choice (caso que se quiere ordenar)
+ * @return 
+ */
+void Movie_Database :: print_element(int sort_choice){
+    // Opcion 1 para el texto
+    if (sort_choice == 1){
+        for (int i = 0; i < movies_size; i++){
+        cout << movies[i].get_nombre() << " ";
+        }
+    }
+    // Opcion 2 para los números
+    else if (sort_choice == 2){
+        for (int i = 0; i < movies_size; i++){
+        cout << movies[i].get_duracion() << "  ";
+        }
     }
 }
 
