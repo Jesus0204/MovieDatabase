@@ -4,10 +4,10 @@ Este proyecto tiene por lo mientras dos objetos, uno llamado Movie, con atributo
 ## Datos de una película:
 El objeto de Movie tiene los siguientes atributos, que también son los datos de la película:
 1. Nombre.
-2. Duración
-3. Director
-4. Review
-5. Year (año)
+2. Duración.
+3. Director.
+4. Review.
+5. Year (año).
 
 ## Consideraciones
 El programa se compila y corre con g++. Adicionalmente, el programa (aplicación) se encuentra en main.cpp, mientras que lo que hace pruebas.cpp es ver si los algoritmos y métodos funcionan correctamente. 
