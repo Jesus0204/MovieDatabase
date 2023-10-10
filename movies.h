@@ -14,6 +14,7 @@
 // Librerías
 #ifndef MOVIES_H
 #define MOVIES_H
+#include <list>
 #include <iostream>
 
 using namespace std;
@@ -85,7 +86,9 @@ class Movie_Database {
     // Atributos de la clase
     private: 
         Movie movies[100];
+        list<Movie> movie_list;
         int movies_size;
+        void swap_num(int i, int j);
     public: 
         // Constructor por default
         Movie_Database(): movies_size(0){};
@@ -94,7 +97,6 @@ class Movie_Database {
         void agrega_movies();
         void agrega_movie_user();
         void add_movie_prueba(Movie prueba);
-        void swap_num(int i, int j);
         void sort_choice(int sort_choice);
         int sort_choice_num(int min, int sort_choice, int letra);
         void sort_num(int sort_choice);
@@ -122,6 +124,12 @@ void Movie_Database :: agrega_movies(){
     movies_size++;
     movies[movies_size] = Movie("Avengers", 143, "Joss Whedon", 90, 2012);
     movies_size++;
+
+    movie_list.push_back(Movie("The Conjuring", 112, "James Wan", 86, 2013));
+    movie_list.push_back(Movie("Star Wars: Revenge of the Sith", 140, "George Lucas", 100, 2005));
+    movie_list.push_back(Movie("Oppenheimer", 180, "Christopher Nolan", 93, 2023));
+    movie_list.push_back(Movie("Shrek II", 105, "Andrew Adamson", 95, 2004));
+    movie_list.push_back(Movie("Avengers", 143, "Joss Whedon", 90, 2012));
 }
 
 /**
@@ -154,11 +162,14 @@ void Movie_Database :: agrega_movie_user(){
     // Creas la película y la agregas al database
     movies[movies_size] = Movie(name, dur, dir, rev, ye);
     movies_size++;
+
+    // Agregas la película a la lista ligada
+    movie_list.push_back(Movie(name, dur, dir, rev, ye));
 }
 
 /**
  * add_movie_Prueba agrega la película que se creó afuera al arreglo con agregación
- * Mayormente se usa para crear películas con solo un dato y probar el ordenamiento
+ * Esta función solo se usa en pruebas, para mayor facilidad en donde se llena un solo dato
  *
  * @param Movie Le pasas la "Película" para que la agregue a la lista
  * @return
@@ -166,6 +177,8 @@ void Movie_Database :: agrega_movie_user(){
 void Movie_Database :: add_movie_prueba(Movie Prueba){
     movies[movies_size] = Prueba;
     movies_size++;
+
+    movie_list.push_back(Prueba);
 }
 
 /**
@@ -290,13 +303,20 @@ void Movie_Database :: sort_text(int sort_choice){
  * @return
  */
 void Movie_Database :: print_movies(){
-    for (int i = 0; i < movies_size; i++){
+    // Iniciar un iterador al principio de la lista
+    list<Movie>:: iterator p = movie_list.begin();
+
+    // Iniciar un counter para imprimir el número de película
+    int i = 0;
+    while (p != movie_list.end()){
         cout << "\nMovie #" << i + 1 << endl;
-        cout << "Nombre: " << movies[i].get_nombre() << endl;
-        cout << "Duración: " << movies[i].get_duracion() << " min" << endl;
-        cout << "Director: " << movies[i].get_director() << endl;
-        cout << "Review: " << movies[i].get_review() << "%" << endl;
-        cout << "Year: " << movies[i].get_year() << endl << endl;
+        cout << "Nombre: " << p -> get_nombre() << endl;
+        cout << "Duración: " << p -> get_duracion() << " min" << endl;
+        cout << "Director: " << p -> get_director() << endl;
+        cout << "Review: " << p -> get_review() << "%" << endl;
+        cout << "Year: " << p -> get_year() << endl << endl;
+        p++;
+        i++;
     }
 }
 
@@ -307,16 +327,19 @@ void Movie_Database :: print_movies(){
  * @return 
  */
 void Movie_Database :: print_element(int sort_choice){
+    // Iniciar un iterador al principio de la lista
+    list<Movie>:: iterator p = movie_list.begin();
+
     // Opcion 1 para el texto
     if (sort_choice == 1){
-        for (int i = 0; i < movies_size; i++){
-        cout << movies[i].get_nombre() << " ";
+        while (p != movie_list.end()){
+            cout <<  p -> get_nombre() << " ";
         }
     }
     // Opcion 2 para los números
     else if (sort_choice == 2){
-        for (int i = 0; i < movies_size; i++){
-        cout << movies[i].get_duracion() << "  ";
+        while (p != movie_list.end()){
+            cout <<  p -> get_duracion() << " ";
         }
     }
 }
