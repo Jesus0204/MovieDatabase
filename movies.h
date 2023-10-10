@@ -81,7 +81,7 @@ int Movie :: get_year(){
     return year;
 }
 
-// Clase con el arreglo de las películas, y algoritmos de ordenamiento junto con una función de print
+// Clase con la lista de las películas, y algoritmos de ordenamiento junto con una función de print
 class Movie_Database {
     // Atributos de la clase
     private: 
@@ -103,11 +103,8 @@ class Movie_Database {
         void print_element(int sort_choice);
 };
 
-// Constructor del objeto
-Movie_Database::Movie_Database(){
-    // Haces que al construir el objeto se agreguen las películas para que la lista no esté vacía
-    agrega_movies();
-}
+// Constructor del objeto vacío
+Movie_Database::Movie_Database(){}
 
 /**
  * agrega_movies genera objetos en movies
@@ -157,7 +154,7 @@ void Movie_Database :: agrega_movie_user(){
 }
 
 /**
- * add_movie_Prueba agrega la película que se creó afuera al arreglo con agregación
+ * add_movie_Prueba agrega la película que se creó afuera a la lista con agregación
  * Esta función solo se usa en pruebas, para mayor facilidad en donde se llena un solo dato
  *
  * @param Movie Le pasas la "Película" para que la agregue a la lista
@@ -224,7 +221,7 @@ int Movie_Database :: sort_choice_num(list<Movie>:: iterator elem_pointer, int s
 }
 
 /**
- * Hace un selection sort con el arreglo dependiendo de lo que quieras ordenar
+ * Hace un selection sort con la lista dependiendo de lo que quieras ordenar
  * @param int sort_choice (Escenario en el que se quiere ordenar)
  * @return
  */
@@ -259,7 +256,7 @@ void Movie_Database :: sort_num(int sort_choice){
 }
 
 /**
- * Hace un selection sort con el arreglo pero modificado para texto
+ * Hace un selection sort con la lista pero modificado para texto
  * @param int sort_choice (Escenario en el que se quiere ordenar)
  * @return
  */
@@ -304,7 +301,7 @@ void Movie_Database :: sort_text(int sort_choice){
 /**
  *
  * Imprime todas las características que hay en cada película que se encuentra 
- * en la lista movies[]. 
+ * en la lista movies. 
  * @param None
  * @return
  */
@@ -340,12 +337,14 @@ void Movie_Database :: print_element(int sort_choice){
     if (sort_choice == 1){
         while (p != movies.end()){
             cout <<  p -> get_nombre() << " ";
+            p++;
         }
     }
     // Opcion 2 para los números
     else if (sort_choice == 2){
         while (p != movies.end()){
             cout <<  p -> get_duracion() << " ";
+            p++;
         }
     }
 }

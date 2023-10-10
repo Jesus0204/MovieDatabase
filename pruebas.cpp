@@ -18,7 +18,7 @@ using namespace std;
 
 void prueba_sort_text(){
 
-    // Creas la base de datos vacía con el arreglo movies[] para probar los números
+    // Creas la base de datos vacía con la lista movies para probar los números
     Movie_Database Movies_Prueba;
 
     // Creas películas con un solo dato de texto para comprobar que el ordenamiento de texto funcione
@@ -54,7 +54,7 @@ void prueba_sort_text(){
 
 void prueba_sort_num(){
 
-    // Creas la base de datos vacía con el arreglo movies[] para probar los números
+    // Creas la base de datos vacía con la lista movies para probar los números
     Movie_Database Movies_Prueba;
 
     // Creas películas con un solo dato númerico para comprobar que el ordenamiento de números funciona
