@@ -1,5 +1,5 @@
 # Movie Database
-Este proyecto tiene por lo mientras dos objetos, uno llamado Movie, con atributos de películas, como su nombre, duración y reviews y el otro llamado MovieDatabase. Ese tiene un arreglo de películas y un contador (para tener control interno). Los métodos de Movie solo son los constructores y getters, mientras que los de Movie_Database tiene dos sorts (uno para números y otro para textos, un método para imprimir sus datos y otros métodos auxiliares para ayudar con el sort o facilidad. 
+Este proyecto tiene por lo mientras dos objetos, uno llamado Movie, con atributos de películas, como su nombre, duración y reviews y el otro llamado MovieDatabase. Ese tiene una lista doblemente ligada implementada con list de C++ de películas y un contador (para tener control interno). Los métodos de Movie solo son los constructores y getters, mientras que los de Movie_Database tiene dos sorts (uno para números y otro para textos, un método para imprimir sus datos y otros métodos auxiliares para ayudar con el sort o facilidad. 
 
 ## Datos de una película:
 El objeto de Movie tiene los siguientes atributos, que también son los datos de la película:
