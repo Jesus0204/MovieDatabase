@@ -85,51 +85,44 @@ int Movie :: get_year(){
 class Movie_Database {
     // Atributos de la clase
     private: 
-        Movie movies[100];
-        list<Movie> movie_list;
-        int movies_size;
-        void swap_num(int i, int j);
+        list<Movie> movies;
+        void swap(list<Movie>:: iterator i, list<Movie>:: iterator j);
     public: 
         // Constructor por default
-        Movie_Database(): movies_size(0){};
+        Movie_Database();
 
         // Métodos de la clase
         void agrega_movies();
         void agrega_movie_user();
         void add_movie_prueba(Movie prueba);
         void sort_choice(int sort_choice);
-        int sort_choice_num(int min, int sort_choice, int letra);
+        int sort_choice_num(list<Movie>:: iterator elem_pointer, int sort_choice, int letra);
         void sort_num(int sort_choice);
         void sort_text(int sort_choice);
         void print_movies();
         void print_element(int sort_choice);
 };
 
+// Constructor del objeto
+Movie_Database::Movie_Database(){
+    // Haces que al construir el objeto se agreguen las películas para que la lista no esté vacía
+    agrega_movies();
+}
+
 /**
- * agrega_movies genera objetos en movies[]
+ * agrega_movies genera objetos en movies
  *
- * genera objetos de tipo Movie y los guarda en movies[] 
+ * genera objetos de tipo Movie y los guarda en movies
  * (arreglo de objetos) para tener qué ordenar
  * @param None
  * @return
  */
 void Movie_Database :: agrega_movies(){
-    movies[movies_size] = Movie("The Conjuring", 112, "James Wan", 86, 2013);
-    movies_size++;
-    movies[movies_size] = Movie("Star Wars: Revenge of the Sith", 140, "George Lucas", 100, 2005);
-    movies_size++;
-    movies[movies_size] = Movie("Oppenheimer", 180, "Christopher Nolan", 93, 2023);
-    movies_size++;
-    movies[movies_size] = Movie("Shrek II", 105, "Andrew Adamson", 95, 2004);
-    movies_size++;
-    movies[movies_size] = Movie("Avengers", 143, "Joss Whedon", 90, 2012);
-    movies_size++;
-
-    movie_list.push_back(Movie("The Conjuring", 112, "James Wan", 86, 2013));
-    movie_list.push_back(Movie("Star Wars: Revenge of the Sith", 140, "George Lucas", 100, 2005));
-    movie_list.push_back(Movie("Oppenheimer", 180, "Christopher Nolan", 93, 2023));
-    movie_list.push_back(Movie("Shrek II", 105, "Andrew Adamson", 95, 2004));
-    movie_list.push_back(Movie("Avengers", 143, "Joss Whedon", 90, 2012));
+    movies.push_back(Movie("The Conjuring", 112, "James Wan", 86, 2013));
+    movies.push_back(Movie("Star Wars: Revenge of the Sith", 140, "George Lucas", 100, 2005));
+    movies.push_back(Movie("Oppenheimer", 180, "Christopher Nolan", 93, 2023));
+    movies.push_back(Movie("Shrek II", 105, "Andrew Adamson", 95, 2004));
+    movies.push_back(Movie("Avengers", 143, "Joss Whedon", 90, 2012));
 }
 
 /**
@@ -159,12 +152,8 @@ void Movie_Database :: agrega_movie_user(){
     cout << "\nPor favor escribe el año que la película salió (num): ";
     cin >> ye;
 
-    // Creas la película y la agregas al database
-    movies[movies_size] = Movie(name, dur, dir, rev, ye);
-    movies_size++;
-
     // Agregas la película a la lista ligada
-    movie_list.push_back(Movie(name, dur, dir, rev, ye));
+    movies.push_back(Movie(name, dur, dir, rev, ye));
 }
 
 /**
@@ -175,22 +164,19 @@ void Movie_Database :: agrega_movie_user(){
  * @return
  */
 void Movie_Database :: add_movie_prueba(Movie Prueba){
-    movies[movies_size] = Prueba;
-    movies_size++;
-
-    movie_list.push_back(Prueba);
+    movies.push_back(Prueba);
 }
 
 /**
- * Cambia los elementos en el arreglo de acuerdo a sus indices
- * @param int num_1 (primer indice a cambiar)
- * @param int num_2 (Segundo indice a cambiar)
+ * Cambia los elementos de la lista de acuerdo a los elementos pasados
+ * @param list<Movie>:: iterator elem_1 (primer elemento a cambiar)
+ * @param list<Movie>:: iterator elem_2 (Segundo elemento a cambiar)
  * @return
  */
-void Movie_Database :: swap_num(int num_1, int num_2) {
-    Movie aux = movies[num_1];
-	movies[num_1] = movies[num_2];
-	movies[num_2] = aux;
+void Movie_Database :: swap(list<Movie>:: iterator elem_1, list<Movie>:: iterator elem_2) {
+    Movie aux = *elem_1;
+    *elem_1 = *elem_2;
+    *elem_2 = aux;
 }
 
 /**
@@ -208,30 +194,30 @@ void Movie_Database :: sort_choice(int sort_choice) {
 }
 
 /**
- * Dependiendo de lo que se quiera ordenar, saca los elementos del arreglo
- * @param int num (indice a buscar)
+ * Dependiendo de lo que se quiera ordenar, saca los elementos de la lista
+ * @param list<Movie>:: iterator elem_pointer (elememnto que se regresa el dato)
  * @param int sort_choice (caso que se quiere ordenar)
  * @param int letra (letra de la palabra que se está trabajando)
- * @return int - elemento del arreglo que se regresa (un número)
+ * @return int - elemento de la lista que se regresa (un número)
  */
-int Movie_Database :: sort_choice_num(int num, int sort_choice, int letra){
+int Movie_Database :: sort_choice_num(list<Movie>:: iterator elem_pointer, int sort_choice, int letra){
     if (sort_choice == 1){
-        return movies[num].get_nombre()[letra];
+        return elem_pointer -> get_nombre()[letra];
     }
     // Opcion 2 para duración
     else if (sort_choice == 2){
-        return movies[num].get_duracion();
+        return elem_pointer -> get_duracion();
     }
     else if (sort_choice == 3){
-        return movies[num].get_director()[letra];
+        return elem_pointer -> get_director()[letra];
     }
     // Opción 4 para review
     else if (sort_choice == 4){
-        return movies[num].get_review();
+        return elem_pointer -> get_review();
     }
     // Opción 5 para year
     else if (sort_choice == 5) {
-        return movies[num].get_year();
+        return elem_pointer -> get_year();
     }
     // Para evitar el warning
     return 0;
@@ -243,23 +229,33 @@ int Movie_Database :: sort_choice_num(int num, int sort_choice, int letra){
  * @return
  */
 void Movie_Database :: sort_num(int sort_choice){
-    int min;
+    // Creas los tres distintos iteradores, donde el primero empieza al principio
+    list<Movie>:: iterator i_pointer = movies.begin();
+    list<Movie>:: iterator j_pointer;
+    list<Movie>:: iterator min_pointer;
 
-	// Como se ordena en orden, este se ordena de más chico al más grande
-	// Como hace el swap con el más chico, al final de una iteración ese indice ya está ordenado
-	for(int i = 0; i < movies_size; i++){
-		// Empiezas en el indice i, ya que lo que está antes ya está ordenado
-		min = i;
-		// Buscas el elemento más chico, de todo el arreglo. 
-		// Se empieza con el índice del arreglo que no está ordenado. Esto lo tiene el otro ciclo
-		for(int j = i; j < movies_size; j++){
-			if (sort_choice_num(min, sort_choice, 0) > sort_choice_num(j, sort_choice, 0)){
-				min = j;
+    // Recorres la lista hasta el final
+    while (i_pointer != movies.end()){
+        // Empiezas en el elemento i, ya que lo que está antes ya está ordenado
+        min_pointer = i_pointer;
+
+        // Se empieza con el elemento de la lista que no está ordenado.
+        j_pointer = i_pointer;
+        // Recorres desde ahí hasta el final de la lista
+        while (j_pointer != movies.end()){
+            // Haces la comparación del elemento que se quedó apuntando min contra el actual de j
+            // Si el de min es más grande, se sobrescribe a que ahora apunte al de j
+            if (sort_choice_num(min_pointer, sort_choice, 0) > sort_choice_num(j_pointer, sort_choice, 0)){
+				min_pointer = j_pointer;
 			}
-		}
-		// Después de encontrarlo, haces el swap
-		swap_num(i, min);
-	}
+            // Pasas al siguiente elemento
+            j_pointer++;
+        }
+        // Después de encontrarlo, haces el swap
+		swap(i_pointer, min_pointer);
+        // Pasas al siguiente elemento a ordenar
+        i_pointer++;
+    }
 }
 
 /**
@@ -268,31 +264,41 @@ void Movie_Database :: sort_num(int sort_choice){
  * @return
  */
 void Movie_Database :: sort_text(int sort_choice){
-    int min;
+    // Creas los tres distintos iteradores, donde el primero empieza al principio
+    list<Movie>:: iterator i_pointer = movies.begin();
+    list<Movie>:: iterator j_pointer;
+    list<Movie>:: iterator min_pointer;
 
-	// Como se ordena en orden, este se ordena de más chico al más grande
-	// Como hace el swap con el más chico, al final de una iteración ese indice ya está ordenado
-	for(int i = 0; i < movies_size; i++){
-		// Empiezas en el indice i, ya que lo que está antes ya está ordenado
-		min = i;
-		// Buscas el elemento más chico, de todo el arreglo. 
-		// Se empieza con el índice del arreglo que no está ordenado. Esto lo tiene el otro ciclo
-		for(int j = i; j < movies_size; j++){
-            // Usas un ciclo for que encuentre la primera letra diferente de la palabra. 
+    // Recorres la lista hasta el final
+    while (i_pointer != movies.end()){
+        // Empiezas en el elemento i, ya que lo que está antes ya está ordenado
+        min_pointer = i_pointer;
+
+        // Se empieza con el elemento de la lista que no está ordenado.
+        j_pointer = i_pointer;
+        // Recorres desde ahí hasta el final de la lista
+        while (j_pointer != movies.end()){
+
+            // Usas un ciclo while que encuentre la primera letra diferente de la palabra. 
             // Solo entra al ciclo cuando min y j no son iguales, ya que si no se cicla el programa
             int count_letra = 0;
-            for (int letra = 0; sort_choice_num(min, sort_choice, letra) == sort_choice_num(j, sort_choice, letra) && min != j; letra++){ 
+            while (sort_choice_num(min_pointer, sort_choice, count_letra) == sort_choice_num(j_pointer, sort_choice, count_letra) && min_pointer != j_pointer){
                 count_letra++;
             }
 
-            // Ya que encontro la primera letra diferente, haces la comparación para el min
-            if (sort_choice_num(min, sort_choice, count_letra) > sort_choice_num(j, sort_choice, count_letra)){
-                min = j;
-            }
-		}
-		// Después de encontrarlo, haces el swap
-		swap_num(i, min);
-	}
+            // Haces la comparación del elemento que se quedó apuntando min contra el actual de j
+            // Si el de min es más grande, se sobrescribe a que ahora apunte al de j
+            if (sort_choice_num(min_pointer, sort_choice, count_letra) > sort_choice_num(j_pointer, sort_choice, count_letra)){
+				min_pointer = j_pointer;
+			}
+            // Pasas al siguiente elemento
+            j_pointer++;
+        }
+        // Después de encontrarlo, haces el swap
+		swap(i_pointer, min_pointer);
+        // Pasas al siguiente elemento a ordenar
+        i_pointer++;
+    }
 }
 
 /**
@@ -304,11 +310,11 @@ void Movie_Database :: sort_text(int sort_choice){
  */
 void Movie_Database :: print_movies(){
     // Iniciar un iterador al principio de la lista
-    list<Movie>:: iterator p = movie_list.begin();
+    list<Movie>:: iterator p = movies.begin();
 
     // Iniciar un counter para imprimir el número de película
     int i = 0;
-    while (p != movie_list.end()){
+    while (p != movies.end()){
         cout << "\nMovie #" << i + 1 << endl;
         cout << "Nombre: " << p -> get_nombre() << endl;
         cout << "Duración: " << p -> get_duracion() << " min" << endl;
@@ -328,17 +334,17 @@ void Movie_Database :: print_movies(){
  */
 void Movie_Database :: print_element(int sort_choice){
     // Iniciar un iterador al principio de la lista
-    list<Movie>:: iterator p = movie_list.begin();
+    list<Movie>:: iterator p = movies.begin();
 
     // Opcion 1 para el texto
     if (sort_choice == 1){
-        while (p != movie_list.end()){
+        while (p != movies.end()){
             cout <<  p -> get_nombre() << " ";
         }
     }
     // Opcion 2 para los números
     else if (sort_choice == 2){
-        while (p != movie_list.end()){
+        while (p != movies.end()){
             cout <<  p -> get_duracion() << " ";
         }
     }

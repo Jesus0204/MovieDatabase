@@ -36,9 +36,6 @@ int main(){
     /* Crear el objeto de la base de datos con la lista vacía */
     Movie_Database Movies_Yeesus;
 
-    // Agregas cinco películas para que la lista no este vacía si el usuario no agrega nada
-    Movies_Yeesus.agrega_movies();
-
     // Se asgina un valor inicial a opción para que entre al ciclo
     int opcion = 1;
 
