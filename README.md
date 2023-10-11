@@ -18,7 +18,9 @@ Ahora, para el análisis de complejidad un selection sort tiende a ser O(n^2) ya
 
 ### Análisis de complejidad de estructura de datos 
 Insertion: O(1) porque siempre uso pushback, y no tiene que iterar la lista.
+
 Busqueda: O(n/2), ya que en el peor de los casos dependiendo de donde inicie la busqueda, tengo que iterar por la mitad de la lista. 
+
 Impresión: O(n), ya que no importa de donde empiezo, tengo que iterar toda la lista para imprimir todos los elementos.
 
 ## SICT0302: Toma decisiones
