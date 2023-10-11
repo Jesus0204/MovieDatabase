@@ -17,9 +17,9 @@ El programa se compila y corre con g++. Adicionalmente, el programa (aplicación
 Ahora, para el análisis de complejidad un selection sort tiende a ser O(n^2) ya que tiene dos ciclos (uno anidado). Esto puede ser cierto para el de sort_num, ya que solo tiene a dos ciclos, pero el que compara a los textos, es más bien O(n^2 * k) ya que se agregó otro ciclo para comparar si las letras son iguales. Esto es porque se agregó otro ciclo, peor este ciclo solo corre si las letras de dos palabras son diferentes, entonces si se tiene una lista de 1000 elementos, los dos primeros ciclos si correrían 1000 veces, pero este último correría mientras las letras de las palabras sean iguales (que no debe de pasar 20), por lo que no es suficientemente influyente para ser otra n. Entonces el sort númerico es O(n^2) y el de texto es O(n^2 * k). 
 
 ### Análisis de complejidad de estructura de datos 
-Insertion: O(1) porque siempre uso pushback, y no tiene que iterar la lista.
+Insertion: O(1) porque siempre uso pushback, y no tiene que iterar la lista.  
 
-Busqueda: O(n/2), ya que en el peor de los casos dependiendo de donde inicie la busqueda, tengo que iterar por la mitad de la lista. 
+Busqueda: O(n/2), ya que en el peor de los casos dependiendo de donde inicie la busqueda, tengo que iterar por la mitad de la lista.   
 
 Impresión: O(n), ya que no importa de donde empiezo, tengo que iterar toda la lista para imprimir todos los elementos.
 
