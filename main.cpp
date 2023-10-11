@@ -85,9 +85,25 @@ int main(){
             }
         }
 
+        // Le pides al usuario el orden que quiere imprimir las cosas
+        cout << endl << "¿Quieres mostrar las películas en orden ascendiente o descendiente?" << endl;
+        cout << "Si no se ha ordenado, descendiente imprimiría la película recién agregada hasta llegar a la primera." << endl;
+        cout << "Para orden ascendiente escribe 1. Para descendiente escribe 2" << endl << endl;
+        char descendiente;
+        cout << "Por favor escribe solo 1 u 2. Opción: ";
+        // Tomar el input del usuario
+        cin >> descendiente;
+
         // Imprime las películas para demostrar como fueron ordenadas
         cout << "\nPelículas con el orden actual: \n";
-        Movies_Yeesus.print_movies();
+        // Si la opción es dos imprimirla como lo pidió
+        if (descendiente == '2'){
+            Movies_Yeesus.print_movies(2);
+        }
+        // Si no, para no generar error hacerlo por orden ascendiente
+        else {
+            Movies_Yeesus.print_movies(1);
+        }
     }
 
     cout << endl << "Perfecto, gracias por usar el programa!" << endl << endl;

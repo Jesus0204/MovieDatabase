@@ -99,7 +99,7 @@ class Movie_Database {
         int sort_choice_num(list<Movie>:: iterator elem_pointer, int sort_choice, int letra);
         void sort_num(int sort_choice);
         void sort_text(int sort_choice);
-        void print_movies();
+        void print_movies(int asc_desc);
         void print_element(int sort_choice);
 };
 
@@ -305,21 +305,44 @@ void Movie_Database :: sort_text(int sort_choice){
  * @param None
  * @return
  */
-void Movie_Database :: print_movies(){
-    // Iniciar un iterador al principio de la lista
-    list<Movie>:: iterator p = movies.begin();
+void Movie_Database :: print_movies(int asc_desc){
 
-    // Iniciar un counter para imprimir el número de película
-    int i = 0;
-    while (p != movies.end()){
-        cout << "\nMovie #" << i + 1 << endl;
-        cout << "Nombre: " << p -> get_nombre() << endl;
-        cout << "Duración: " << p -> get_duracion() << " min" << endl;
-        cout << "Director: " << p -> get_director() << endl;
-        cout << "Review: " << p -> get_review() << "%" << endl;
-        cout << "Year: " << p -> get_year() << endl << endl;
-        p++;
-        i++;
+    if (asc_desc == 1){
+        // Iniciar un iterador al principio de la lista
+        list<Movie>:: iterator p = movies.begin();
+
+        // Iniciar un counter para imprimir el número de película
+        int i = 0;
+        // Recorrer la lista e imprimir valores
+        while (p != movies.end()){
+            cout << "\nMovie #" << i + 1 << endl;
+            cout << "Nombre: " << p -> get_nombre() << endl;
+            cout << "Duración: " << p -> get_duracion() << " min" << endl;
+            cout << "Director: " << p -> get_director() << endl;
+            cout << "Review: " << p -> get_review() << "%" << endl;
+            cout << "Year: " << p -> get_year() << endl << endl;
+            p++;
+            i++;
+        }
+    }
+    else if (asc_desc == 2){
+        // Iniciar el iterador al final de la lista
+        list<Movie>:: iterator p = movies.end();
+        p--;
+        // Hacer que apunte a un elemento
+
+        // Iniciar un counter para imprimir el número de película
+        int i = 0;
+        while (i < movies.size()){
+            cout << "\nMovie #" << i + 1 << endl;
+            cout << "Nombre: " << p -> get_nombre() << endl;
+            cout << "Duración: " << p -> get_duracion() << " min" << endl;
+            cout << "Director: " << p -> get_director() << endl;
+            cout << "Review: " << p -> get_review() << "%" << endl;
+            cout << "Year: " << p -> get_year() << endl << endl;
+            p--;
+            i++;
+        }
     }
 }
 
