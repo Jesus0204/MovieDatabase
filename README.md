@@ -34,3 +34,4 @@ Para este problema uso una lista doblemente ligada (también llamada list en c++
 ### Consulta de información de estructura
 
 ### Lectura de archivos para cargar datos correctamente
+Las películas están cargadas en un archivo llamado Movie_Database.csv, donde al llamar el constructor de MovieDatabase, see registran y agregan a la lista todas las películas. Por lo tanto, aunque la insersión de la estructura de datos sea O(1), como tengo que iterar por todas las líneas del archivo (n), aparte de iterar por cada elemento de cada línea (5 elementos por línea), por lo que el análisis asíntotico de la lectura del archivo sería de O(n * 5). 
