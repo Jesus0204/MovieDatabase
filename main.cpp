@@ -6,9 +6,10 @@
  */
 
 /*
- * Para este primer avance, voy a hacer una clase llamada Movie
+ * Se va a hacer una clase llamada Movie
  * Esta clase va a tener todos los atributos (nombre, duracion, director, etc)
- * Y en este primer avance voy a ordenar a las películas en base a lo que se pida ordenar
+ * Donde dependiendo de lo que pida el usuario, ordena la lista doblemente ligada
+ * Las películas son cargadas de un archivo para el uso más fácil de este
  */
 
 // Biblotecas
@@ -29,6 +30,20 @@ void menu_inicial(){
     cout << "Cualquier otro número para salir \n\n";
 }
 
+// Funcionar auxiliar para solo pedir esto cuando el programa haga ciertas cosas
+char print_order(){
+    // Le pides al usuario el orden que quiere imprimir las cosas
+    cout << endl << "¿Quieres mostrar las películas en orden ascendiente o descendiente?" << endl;
+    cout << "Si no se ha ordenado, descendiente imprimiría la película recién agregada hasta llegar a la primera." << endl;
+    cout << "Para orden ascendiente escribe 1. Para descendiente escribe 2" << endl << endl;
+    char descendiente;
+    cout << "Por favor escribe solo 1 u 2. Opción: ";
+    // Tomar el input del usuario
+    cin >> descendiente;
+
+    return descendiente;
+}
+
 int main(){
 
     cout << "\n¡Bienvenido al Movie Sorter de Yeesus, donde puedes ordenar cualquier película!\n";
@@ -36,11 +51,9 @@ int main(){
     /* Crear el objeto de la base de datos con la lista vacía */
     Movie_Database Movies_Yeesus;
 
-    // Agregas cinco películas para que la lista no este vacía si el usuario no agrega nada
-    Movies_Yeesus.agrega_movies();
-
     // Se asgina un valor inicial a opción para que entre al ciclo
     int opcion = 1;
+    char descendiente;
 
     // Ciclo para que se repita hasta que el usuario eliga opción válida
     while (opcion >= 1 && opcion <= 6){
@@ -56,44 +69,41 @@ int main(){
             // Caso 1 donde el usuario agrega las películas que quiera. Aquí vuelve a pedir el menú
             case 1: {
                 Movies_Yeesus.agrega_movie_user();
+                descendiente = print_order();
                 break;
             }
             // Caso 2 que se ordena por nombre
             case 2: {
                 Movies_Yeesus.sort_choice(1);
+                descendiente = print_order();
                 break;
             }
             // Caso 3 que se ordena por duración
             case 3: {
                 Movies_Yeesus.sort_choice(2);
+                descendiente = print_order();
                 break;
             }
             // Caso 4 que se ordena por director
             case 4: {
                 Movies_Yeesus.sort_choice(3);
+                descendiente = print_order();
                 break;
             }
             // Caso 5 que se ordena por reviews
             case 5: {
                 Movies_Yeesus.sort_choice(4);
+                descendiente = print_order();
                 break;
             }
             // Caso 6 que se ordena por año 
             case 6: {
                 Movies_Yeesus.sort_choice(5);
+                descendiente = print_order();
                 break;
             }
         }
-
-        // Le pides al usuario el orden que quiere imprimir las cosas
-        cout << endl << "¿Quieres mostrar las películas en orden ascendiente o descendiente?" << endl;
-        cout << "Si no se ha ordenado, descendiente imprimiría la película recién agregada hasta llegar a la primera." << endl;
-        cout << "Para orden ascendiente escribe 1. Para descendiente escribe 2" << endl << endl;
-        char descendiente;
-        cout << "Por favor escribe solo 1 u 2. Opción: ";
-        // Tomar el input del usuario
-        cin >> descendiente;
-
+        
         // Imprime las películas para demostrar como fueron ordenadas
         cout << "\nPelículas con el orden actual: \n";
         // Si la opción es dos imprimirla como lo pidió
