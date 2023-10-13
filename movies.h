@@ -15,6 +15,8 @@
 #ifndef MOVIES_H
 #define MOVIES_H
 #include <list>
+#include <fstream>
+#include <sstream>
 #include <iostream>
 
 using namespace std;
@@ -92,9 +94,7 @@ class Movie_Database {
         Movie_Database();
 
         // Métodos de la clase
-        void agrega_movies();
         void agrega_movie_user();
-        void add_movie_prueba(Movie prueba);
         void sort_choice(int sort_choice);
         int sort_choice_num(list<Movie>:: iterator elem_pointer, int sort_choice, int letra);
         void sort_num(int sort_choice);
@@ -103,23 +103,60 @@ class Movie_Database {
         void print_element(int sort_choice);
 };
 
-// Constructor del objeto vacío
-Movie_Database::Movie_Database(){}
-
 /**
- * agrega_movies genera objetos en movies
+ * Movie_Database (constructor) lee el archivo, y crea los objetos de dicho archivo
  *
  * genera objetos de tipo Movie y los guarda en movies
- * (arreglo de objetos) para tener qué ordenar
+ * (lista de objetos) para tener qué ordenar
+ * 
+ * Usé estas dos ligas de apoyo: 
+ * https://www.geeksforgeeks.org/program-to-parse-a-comma-separated-string-in-c/
+ * https://iq.opengenus.org/read-and-write-in-csv-in-cpp/.
  * @param None
  * @return
  */
-void Movie_Database :: agrega_movies(){
-    movies.push_back(Movie("The Conjuring", 112, "James Wan", 86, 2013));
-    movies.push_back(Movie("Star Wars: Revenge of the Sith", 140, "George Lucas", 100, 2005));
-    movies.push_back(Movie("Oppenheimer", 180, "Christopher Nolan", 93, 2023));
-    movies.push_back(Movie("Shrek II", 105, "Andrew Adamson", 95, 2004));
-    movies.push_back(Movie("Avengers", 143, "Joss Whedon", 90, 2012));
+Movie_Database::Movie_Database(){
+    // Abrir el archivo
+    ifstream file;
+    file.open("Movie_Database.csv");
+
+    // Crear la variable para guardar cada línea
+    string line;
+    // Mientras siga habiendo lineas en el archivo
+    while (getline(file, line)) {
+        // Sobreescribes al contador para saber cuáles convertir a número por línea
+        int count = 0;
+        // Declaras las variables donde se guardan los datos
+        string name, dir;
+        int dur, rev, ye;
+        // Crear un stringstream con esa línea
+        stringstream ss(line);
+        // Mientras siga habiendo string en ese stringstream
+        while (ss.good()) {
+            // Creas el elemento como string
+            string element;
+            // Sacas todo hasta que haya una coma y lo guardas en element
+            getline(ss, element, ',');
+            // Guardas cada elemento en una variable para después crear el objeto
+            if (count == 0)
+                name = element;
+            else if(count == 1) 
+                dur = stoi(element);
+            else if(count == 2)
+                dir = element;
+            else if(count == 3)
+                rev = stoi(element);
+            else if(count == 4)
+                ye = stoi(element);
+    
+            count++;
+        }
+
+        movies.push_back(Movie(name, dur, dir, rev, ye));
+    }
+
+    // Cierras el archivo
+    file.close();
 }
 
 /**
@@ -151,17 +188,6 @@ void Movie_Database :: agrega_movie_user(){
 
     // Agregas la película a la lista ligada
     movies.push_back(Movie(name, dur, dir, rev, ye));
-}
-
-/**
- * add_movie_Prueba agrega la película que se creó afuera a la lista con agregación
- * Esta función solo se usa en pruebas, para mayor facilidad en donde se llena un solo dato
- *
- * @param Movie Le pasas la "Película" para que la agregue a la lista
- * @return
- */
-void Movie_Database :: add_movie_prueba(Movie Prueba){
-    movies.push_back(Prueba);
 }
 
 /**
@@ -302,7 +328,7 @@ void Movie_Database :: sort_text(int sort_choice){
  *
  * Imprime todas las características que hay en cada película que se encuentra 
  * en la lista movies. 
- * @param None
+ * @param int asc_desc (1 para empezar al principio y 2 para empezar al final)
  * @return
  */
 void Movie_Database :: print_movies(int asc_desc){
