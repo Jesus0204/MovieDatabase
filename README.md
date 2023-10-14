@@ -1,5 +1,5 @@
 # Movie Database
-Este proyecto tiene por lo mientras dos objetos, uno llamado Movie, con atributos de películas, como su nombre, duración y reviews y el otro llamado MovieDatabase. Ese tiene una lista doblemente ligada implementada con list de C++ de películas. Los métodos de Movie solo son los constructores y getters, mientras que los de Movie_Database tiene dos sorts (uno para números y otro para textos, un método para imprimir sus datos y otros métodos auxiliares para ayudar con el sort o facilidad). 
+Este proyecto tiene por lo mientras dos objetos, uno llamado Movie, con atributos de películas, como su nombre, duración y reviews y el otro llamado MovieDatabase. Ese tiene una lista doblemente ligada implementada con list de C++ de 100 películas. Los métodos de Movie solo son los constructores y getters, mientras que los de Movie_Database tiene dos sorts (uno para números y otro para textos, un método para imprimir sus datos, dos para buscar elementos en la lista (números y texto igual) y otros métodos auxiliares para ayudar con el sort o con los finds). 
 
 ## Datos de una película:
 El objeto de Movie tiene los siguientes atributos, que también son los datos de la película:
@@ -32,6 +32,7 @@ Para este problema uso una lista doblemente ligada (también llamada list en c++
 
 ## SICT0303: Implementa acciones científicas
 ### Consulta de información de estructura
+El programa actualmente tiene la opción de buscar cualquier película que se encuentra en la lista (100 películas) por nombre (opción 2 del menu), duración (opción 3 del menú), director (opción 4 del menú), reviews (opción 5 del menú), año (opción 6 del menú) o imprimir la lista dependiendo de como está ordenada (opción 7 del menú). Adicionalmente, la opción 8 del menú crea un archivo csv donde se guardan las películas ordenadas como quiere el usuario como un tipo reporte (implementado próximamente).
 
 ### Lectura de archivos para cargar datos correctamente
 Las películas están cargadas en un archivo llamado Movie_Database.csv, donde al llamar el constructor de MovieDatabase, see registran y agregan a la lista todas las películas. Por lo tanto, aunque la insersión de la estructura de datos sea O(1), como tengo que iterar por todas las líneas del archivo (n), aparte de iterar por cada elemento de cada línea (5 elementos por línea), por lo que el análisis asíntotico de la lectura del archivo sería de O(n * 5). 
