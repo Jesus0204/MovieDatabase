@@ -6,9 +6,9 @@
  */
 
 /*
- * Para este primer avance, voy a hacer una clase llamada Movie
- * Esta clase va a tener todos los atributos (nombre, duracion, director, etc)
- * Y en este primer avance voy a ordenar a las películas en base a lo que se pida ordenar
+ * Para este segundo avance, tengo un archivo csv con 100 películas,
+ * que son cargadas a la estructura de datos. Tiene nombre, duración, director
+ * review y año en el que salió. Se puede ordenar por todos esos elementos y encontrar en la lista
  */
 
 // Librerías
@@ -83,6 +83,7 @@ int Movie :: get_year(){
     return year;
 }
 
+
 // Clase con la lista de las películas, y algoritmos de ordenamiento junto con una función de print
 class Movie_Database {
     // Atributos de la clase
@@ -96,11 +97,15 @@ class Movie_Database {
         // Métodos de la clase
         void agrega_movie_user();
         void sort_choice(int sort_choice);
-        int sort_choice_num(list<Movie>:: iterator elem_pointer, int sort_choice, int letra);
+        int sort_choice_num(list<Movie>:: iterator &elem_pointer, int sort_choice, int letra);
         void sort_num(int sort_choice);
         void sort_text(int sort_choice);
         void print_movies(int asc_desc);
-        void print_element(int sort_choice);
+        void print_element(list<Movie>:: iterator &elem_pointer, int count);
+        void find_element_menu(int find_choice);
+        bool find_element(list<Movie>:: iterator &elem_pointer, int find_choice, string value);
+        void find_element_text(string value, int find_choice);
+        void find_element_num(string value, int find_choice);
 };
 
 /**
@@ -122,6 +127,14 @@ Movie_Database::Movie_Database(){
 
     // Crear la variable para guardar cada línea
     string line;
+
+    // Le quitas la primera línea del archivo porque está corrupta
+    // Esto ocurre no importa que película se encuentre primero
+    // Lo que se corrompe es el título (lo que va primero)
+    // Lo demás no se corrompe
+    // PREGUNTAAAAR Y AVERIGUAR PORQUE
+    getline(file, line);
+
     // Mientras siga habiendo lineas en el archivo
     while (getline(file, line)) {
         // Sobreescribes al contador para saber cuáles convertir a número por línea
@@ -223,7 +236,7 @@ void Movie_Database :: sort_choice(int sort_choice) {
  * @param int letra (letra de la palabra que se está trabajando)
  * @return int - elemento de la lista que se regresa (un número)
  */
-int Movie_Database :: sort_choice_num(list<Movie>:: iterator elem_pointer, int sort_choice, int letra){
+int Movie_Database :: sort_choice_num(list<Movie>:: iterator &elem_pointer, int sort_choice, int letra){
     if (sort_choice == 1){
         return elem_pointer -> get_nombre()[letra];
     }
@@ -299,6 +312,7 @@ void Movie_Database :: sort_text(int sort_choice){
 
         // Se empieza con el elemento de la lista que no está ordenado.
         j_pointer = i_pointer;
+
         // Recorres desde ahí hasta el final de la lista
         while (j_pointer != movies.end()){
 
@@ -338,10 +352,10 @@ void Movie_Database :: print_movies(int asc_desc){
         list<Movie>:: iterator p = movies.begin();
 
         // Iniciar un counter para imprimir el número de película
-        int i = 0;
+        int i = 1;
         // Recorrer la lista e imprimir valores
         while (p != movies.end()){
-            cout << "\nMovie #" << i + 1 << endl;
+            cout << "\nMovie #" << i << endl;
             cout << "Nombre: " << p -> get_nombre() << endl;
             cout << "Duración: " << p -> get_duracion() << " min" << endl;
             cout << "Director: " << p -> get_director() << endl;
@@ -358,9 +372,9 @@ void Movie_Database :: print_movies(int asc_desc){
         // Hacer que apunte a un elemento
 
         // Iniciar un counter para imprimir el número de película
-        int i = 0;
-        while (i < movies.size()){
-            cout << "\nMovie #" << i + 1 << endl;
+        int i = 1;
+        while (i <= movies.size()){
+            cout << "\nMovie #" << i << endl;
             cout << "Nombre: " << p -> get_nombre() << endl;
             cout << "Duración: " << p -> get_duracion() << " min" << endl;
             cout << "Director: " << p -> get_director() << endl;
@@ -373,28 +387,227 @@ void Movie_Database :: print_movies(int asc_desc){
 }
 
 /**
- * Imprime un solo atributo. La función se usa para pruebas entonces
- * solo se usa con el nombre para comparar el texto, y duración para números
- * @param int sort_choice (caso que se quiere ordenar)
+ * Imprime un elemento de la lista sin tener que iterarla
+ * @param list<Movie>:: iterator elem_pointer (apuntador a elemento a imprimir)
+ * @param int count (número de película en lista posiblemente ordenada)
  * @return 
  */
-void Movie_Database :: print_element(int sort_choice){
-    // Iniciar un iterador al principio de la lista
-    list<Movie>:: iterator p = movies.begin();
+void Movie_Database :: print_element(list<Movie>:: iterator &elem_pointer, int count){
+    // Imprimes todos los datos del elemento apuntado
+    cout << "\nMovie #" << count << endl;
+    cout << "Nombre: " << elem_pointer -> get_nombre() << endl;
+    cout << "Duración: " << elem_pointer -> get_duracion() << " min" << endl;
+    cout << "Director: " << elem_pointer -> get_director() << endl;
+    cout << "Review: " << elem_pointer -> get_review() << "%" << endl;
+    cout << "Year: " << elem_pointer -> get_year() << endl << endl;
+}
 
-    // Opcion 1 para el texto
-    if (sort_choice == 1){
+/**
+ * La función que manda a llamar las funciones de encontrar un número o un texto
+ * @param int find_choice (caso que se quiere encontrar)
+ * @return
+ */
+void Movie_Database :: find_element_menu(int find_choice) {
+    string value;
+    cout << endl << "Por favor escribe lo que quieras encontrar, en base a lo que decidiste anteriormente." << endl;
+    cout << "En caso de haber cometido un error, escribe cualquier valor, y selecciona la opción correcta." << endl;
+    cout << "Valor a buscar: ";
+
+    getline(cin.ignore(100, '\n'), value);
+
+    if (find_choice == 1 || find_choice == 3){ 
+        find_element_text(value, find_choice);
+    }
+    else if (find_choice == 2 || find_choice == 4 || find_choice == 5) {
+        find_element_num(value, find_choice);
+    }
+}
+
+/**
+ * Dependiendo de lo que se quiera ordenar, saca los elementos de la lista
+ * @param list<Movie>:: iterator elem_pointer (elemento donde imprime)
+ * @param int find_choice (caso que se quiere buscar)
+ * @param string value (el valor a buscar)
+ * @return
+ */
+bool Movie_Database :: find_element(list<Movie>:: iterator &elem_pointer, int find_choice, string value){
+    // Opcion 1 para nombre
+    if (find_choice == 1){
+        if (elem_pointer -> get_nombre() == value)
+            return true;
+    }
+    // Opcion 2 para duración
+    else if (find_choice == 2){
+        // Convertir el string de input a número
+        int value_num = stoi(value);
+        if (elem_pointer -> get_duracion() == value_num)
+            return true;
+    }
+    // Opcion 3 para director
+    else if (find_choice == 3){
+        if (elem_pointer -> get_director() == value)
+            return true;
+    }
+    // Opción 4 para review
+    else if (find_choice == 4){
+        // Convertir el string de input a número
+        int value_num = stoi(value);
+        if (elem_pointer -> get_review() == value_num)
+            return true;
+    }
+    // Opción 5 para year
+    else if (find_choice == 5) {
+        // Convertir el string de input a número
+        int value_num = stoi(value);
+        if (elem_pointer -> get_year() == value_num)
+            return true;
+    }
+    return false;
+}
+
+/**
+ * Encuentras un elemento que es de tipo texto, iterando en la lista ya sea desde
+ * el principio o del final
+ * @param int find_choice (caso que se quiere buscar)
+ * @param string value (el valor a buscar)
+ * @return
+ */
+void Movie_Database :: find_element_text(string value, int find_choice){
+    // Aquí no hago validación porque puede haber películas con título de número (como 1917)
+
+    // Haces el cálculo para saber donde empezar en la lista (donde es más probable que este el elemento)
+    char first = 'A';
+    char last = 'Z';
+    int size = (first + last) / 2;
+
+    // Creas una bandera
+    bool found = false;
+
+    if (value[0] <= size) {
+        // Iniciar un iterador al principio de la lista
+        list<Movie>:: iterator p = movies.begin();
+
+        // Empiezas a iterar la lista completa y el contador
+        int count = 1;
         while (p != movies.end()){
-            cout <<  p -> get_nombre() << " ";
+            // Si el valor a buscar es igual al que se busca
+            if (find_element(p, find_choice, value) == true){
+                cout <<"¡Elemento encontrado!" << endl;
+                print_element(p, count);
+                found = true;
+            }
+            // Incrementas el apuntador y el contador
             p++;
+            count++;
         }
     }
-    // Opcion 2 para los números
-    else if (sort_choice == 2){
-        while (p != movies.end()){
-            cout <<  p -> get_duracion() << " ";
-            p++;
+    else if (value[0] > size){
+        // Iniciar el iterador al final de la lista
+        list<Movie>:: iterator p = movies.end();
+        // Hacer que apunte a un elemento
+        p--;
+        
+        // Emmpiezas el contador y a iterar la lista desde atrás
+        int count = movies.size();
+        while(count != 0){
+            // Si el valor a buscar es igual al que se busca
+            if (find_element(p, find_choice, value) == true){
+                cout <<"¡Elemento encontrado!" << endl;
+                print_element(p, count);
+                found = true;
+            }
+            // Decrementas el apuntador y el contador
+            p--;
+            count--;
         }
+    }
+    
+    // Si la bandera se quedó en false todo el tiempo imprimes que no se encontro
+    if (found == false){
+        // Imprimes que no se encontró el elemento
+        cout << endl << "¡Elemento no encontrado!" << endl;
+    }
+}
+
+/**
+ * Encuentras un elemento que es de tipo número, iterando en la lista ya sea desde
+ * el principio o del final
+ * Se consiguó apoyo de esta liga, donde si no se puede convertir el input a número
+ * Saque al usuario de la función para que no genere error
+ * https://stackoverflow.com/questions/59457656/exception-handling-with-stoi-function
+ * @param int find_choice (caso que se quiere buscar)
+ * @param string value (el valor a buscar)
+ * @return
+ */
+void Movie_Database :: find_element_num(string value, int find_choice){
+    // Intentar Convertir el string de input a número
+    int value_num;
+    try {
+        int value_num = stoi(value);
+    }
+    // Si ve que no se puede hacer imprimir y salir de la función (ya que después genera error)
+    catch (invalid_argument const& ex)
+    {
+        cout << endl << ex.what() << endl << "¡Escribiste una letra para encontrar un valor númerico!" <<'\n';
+        cout << "Por favor intente de nuevo!" << endl << endl;
+        // Salir de la función para que no genere error
+        return;
+    }
+
+    // Iniciar un iterador al principio y final de la lista
+    // Esto sirve para saber donde empezar a iterar y sacar la mitad del rango
+    list<Movie>:: iterator first = movies.begin();
+    list<Movie>:: iterator last = movies.end();
+    // Hacer que last apunte a un elemento
+    last--;
+
+    // Sacas el elemento
+    int first_num = find_element(first, find_choice, value);
+    int last_num = find_element(last, find_choice, value);
+
+    // Sacas el cálculo de la mitad
+    int size = (first_num + last_num) / 2;
+
+    // Creas una bandera
+    bool found = false;
+
+    // Si el valor es más chico o igual empezar al principio
+    if (value_num <= size) {
+        // Empiezas a iterar la lista completa y el contador
+        int count = 1;
+        while (first != movies.end()){
+            // Si el valor a buscar es igual al que se busca
+            if (find_element(first, find_choice, value) == true){
+                cout << "¡Elemento encontrado!" << endl;
+                print_element(first, count);
+                found = true;
+            }
+            // Incrementas el apuntador y el contador
+            first++;
+            count++;
+        }
+    }
+    // Si el valor es más grande empezar al final
+    else if (value_num > size){
+        // Emmpiezas el contador y a iterar la lista desde atrás
+        int count = movies.size();
+        while(count != 0){
+            // Si el valor a buscar es igual al que se busca
+            if (find_element(last, find_choice, value) == true){
+                cout << "¡Elemento encontrado!" << endl;
+                print_element(last, count);
+                found = true;
+            }
+            // Decrementas el apuntador y el contador
+            last--;
+            count--;
+        }
+    }
+
+    // Si la bandera se quedó en false todo el tiempo imprimes que no se encontro
+    if (found == false){
+        // Imprimes que no se encontró el elemento
+        cout << endl << "¡Elemento no encontrado!" << endl;
     }
 }
 
