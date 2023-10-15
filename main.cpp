@@ -46,6 +46,17 @@ char print_order(){
     return descendiente;
 }
 
+string find_element_input(){
+    string value;
+    cout << endl << "Por favor escribe lo que quieras encontrar, en base a lo que decidiste anteriormente." << endl;
+    cout << "En caso de haber cometido un error, escribe cualquier valor, y selecciona la opción correcta." << endl;
+    cout << "Valor a buscar: ";
+
+    getline(cin.ignore(100, '\n'), value);
+
+    return value;
+}
+
 int main(){
 
     cout << "\n¡Bienvenido al Movie Sorter de Yeesus, donde puedes ordenar cualquier película!\n";
@@ -61,6 +72,8 @@ int main(){
         // Imprimir el menu
         menu_inicial();
 
+        string value;
+
         cout << "Por favor solo escribe números. Opción: ";
         // Tomar el input del usuario
         cin >> opcion;
@@ -75,31 +88,36 @@ int main(){
             // Caso 2 que se ordena por nombre
             case 2: {
                 Movies_Yeesus.sort_choice(1);
-                Movies_Yeesus.find_element_menu(1);
+                value = find_element_input();
+                cout << Movies_Yeesus.find_element_menu(1, value);
                 break;
             }
             // Caso 3 que se ordena por duración
             case 3: {
                 Movies_Yeesus.sort_choice(2);
-                Movies_Yeesus.find_element_menu(2);
+                value = find_element_input();
+                cout << Movies_Yeesus.find_element_menu(2, value);
                 break;
             }
             // Caso 4 que se ordena por director
             case 4: {
                 Movies_Yeesus.sort_choice(3);
-                Movies_Yeesus.find_element_menu(3);
+                value = find_element_input();
+                cout << Movies_Yeesus.find_element_menu(3, value);
                 break;
             }
             // Caso 5 que se ordena por reviews
             case 5: {
                 Movies_Yeesus.sort_choice(4);
-                Movies_Yeesus.find_element_menu(4);
+                value = find_element_input();
+                cout << Movies_Yeesus.find_element_menu(4, value);
                 break;
             }
             // Caso 6 que se ordena por año 
             case 6: {
                 Movies_Yeesus.sort_choice(5);
-                Movies_Yeesus.find_element_menu(5);
+                value = find_element_input();
+                cout << Movies_Yeesus.find_element_menu(5, value);
                 break;
             }
             case 7: {
@@ -109,11 +127,11 @@ int main(){
                 cout << "\nPelículas con el orden actual: \n";
                 // Si la opción es dos imprimirla como lo pidió
                 if (descendiente == '2'){
-                    Movies_Yeesus.print_movies(2);
+                    cout << Movies_Yeesus.toString_movies(2);
                 }
                 // Si no, para no generar error hacerlo por orden ascendiente
                 else {
-                    Movies_Yeesus.print_movies(1);
+                    cout << Movies_Yeesus.toString_movies(1);
                 }
                 break;
             }
