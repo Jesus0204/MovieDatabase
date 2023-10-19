@@ -128,13 +128,6 @@ Movie_Database::Movie_Database(){
     // Crear la variable para guardar cada línea
     string line;
 
-    // Le quitas la primera línea del archivo porque está corrupta
-    // Esto ocurre no importa que película se encuentre primero
-    // Lo que se corrompe es el título (lo que va primero)
-    // Lo demás no se corrompe
-    // PREGUNTAAAAR Y AVERIGUAR PORQUE
-    getline(file, line);
-
     // Mientras siga habiendo lineas en el archivo
     while (getline(file, line)) {
         // Sobreescribes al contador para saber cuáles convertir a número por línea
@@ -309,7 +302,6 @@ void Movie_Database :: sort_text(int sort_choice){
     while (i_pointer != movies.end()){
         // Empiezas en el elemento i, ya que lo que está antes ya está ordenado
         min_pointer = i_pointer;
-
         // Se empieza con el elemento de la lista que no está ordenado.
         j_pointer = i_pointer;
 
