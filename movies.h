@@ -106,6 +106,8 @@ class Movie_Database {
         string find_element_menu(int find_choice, string value);
         bool find_element(list<Movie>:: iterator &elem_pointer, int find_choice, string value);
         string find_element(string value, int find_choice, list<Movie>:: iterator &elem_pointer);
+        void reporte_peliculas_menu(char reporte_opcion);
+        void reporte_peliculas(int reporte_choice);
 };
 
 /**
@@ -598,6 +600,121 @@ string Movie_Database :: find_element(string value, int find_choice, list<Movie>
         aux << endl << "¡Elemento no encontrado!" << endl;
     }
     return aux.str();
+}
+
+void Movie_Database :: reporte_peliculas_menu(char reporte_opcion){
+    // Convertir el char a un integer
+    int opcion = reporte_opcion - '0';
+
+    if (opcion == 1){
+        // Ordenas las películas primero y luego llamas la función
+        sort_choice(1);
+        reporte_peliculas(1);
+    }
+    else if (opcion == 2){
+        // Ordenas las películas primero y luego llamas la función
+        sort_choice(2);
+        reporte_peliculas(2);
+    }
+    else if (opcion == 3){
+        // Ordenas las películas primero y luego llamas la función
+        sort_choice(3);
+        reporte_peliculas(3);
+    }
+    else if (opcion  == 4){
+        // Ordenas las películas primero y luego llamas la función
+        sort_choice(4);
+        reporte_peliculas(4);
+    }
+    else if (opcion == 5){
+        // Ordenas las películas primero y luego llamas la función
+        sort_choice(5);
+        reporte_peliculas(5);
+    }
+    else {
+        cout << endl << "La opción que elegiste no existe. Por favor intenta de nuevo." << endl;
+    }
+}
+
+void Movie_Database :: reporte_peliculas(int reporte_choice){
+   // Creas el archivo para escribir
+   ofstream file("Movies_Ordenadas.csv");
+
+   // Creas el iterador para iterar hasta el final
+   list<Movie>:: iterator p = movies.begin();
+
+   if (reporte_choice == 1){
+        // El header del archivo
+        file << "Movie, Duracion, Director, Review, Year" << endl;
+        while (p != movies.end()){
+            // Le agregas al archivo el nombre
+            file << p -> get_nombre() << ", ";
+            file << p -> get_duracion() << ", ";
+            file << p -> get_director() << ", ";
+            file << p -> get_review() << ", ";
+            file << p -> get_year() << endl;
+            // Te mueves a la siguiente película
+            p++;
+        }
+    }
+    else if (reporte_choice == 2){
+        // El header del archivo
+        file << "Duracion, Movie, Director, Review, Year" << endl;
+        while (p != movies.end()){
+            // Le agregas al archivo el nombre
+            file << p -> get_duracion() << ", ";
+            file << p -> get_nombre() << ", ";
+            file << p -> get_director() << ", ";
+            file << p -> get_review() << ", ";
+            file << p -> get_year() << endl;
+            // Te mueves a la siguiente película
+            p++;
+        }
+    }
+    else if (reporte_choice == 3){
+        // El header del archivo
+        file << "Director, Movie, Duracion, Review, Year" << endl;
+        while (p != movies.end()){
+            // Le agregas al archivo el nombre
+            file << p -> get_director() << ", ";
+            file << p -> get_nombre() << ", ";
+            file << p -> get_duracion() << ", ";
+            file << p -> get_review() << ", ";
+            file << p -> get_year() << endl;
+            // Te mueves a la siguiente película
+            p++;
+        }
+    }
+    else if (reporte_choice == 4){
+         // El header del archivo
+        file << "Review, Movie, Duracion, Director, Year" << endl;
+        while (p != movies.end()){
+            // Le agregas al archivo el nombre
+            file << p -> get_review() << ", ";
+            file << p -> get_nombre() << ", ";
+            file << p -> get_duracion() << ", ";
+            file << p -> get_director() << ", ";
+            file << p -> get_year() << endl;
+            // Te mueves a la siguiente película
+            p++;
+        }
+    }
+    else if (reporte_choice == 5){
+        // El header del archivo
+        file << "Year, Movie, Duracion, Director, Review" << endl;
+        while (p != movies.end()){
+            // Le agregas al archivo el nombre
+            file << p -> get_year() << ", " ;
+            file << p -> get_nombre() << ", ";
+            file << p -> get_duracion() << ", ";
+            file << p -> get_director() << ", ";
+            file << p -> get_review() << endl;
+            // Te mueves a la siguiente película
+            p++;
+        }
+    }
+
+    file.close();
 }
 
 #endif

@@ -28,11 +28,11 @@ void menu_inicial(){
     cout << "5. Encontrar películas por reviews.\n";
     cout << "6. Encontrar películas por año. \n";
     cout << "7. Imprimir todas las películas (en el orden que fueron ordenadas al último). \n";
-    cout << "8. Generar un archivo con películas ordenadas con cierto criterio (próximamente en otro avance). \n";
+    cout << "8. Generar un archivo con películas ordenadas con cierto criterio. \n";
     cout << "Cualquier otro número para salir \n\n";
 }
 
-// Funcionar auxiliar para solo pedir esto cuando el programa haga ciertas cosas
+// Funcionar auxiliar para solo pedir el orden que se van a imprimir las cosas
 char print_order(){
     // Le pides al usuario el orden que quiere imprimir las cosas
     cout << endl << "¿Quieres mostrar las películas en orden ascendiente o descendiente?" << endl;
@@ -46,6 +46,7 @@ char print_order(){
     return descendiente;
 }
 
+// Función auxiliar para pedir lo que se va a encontrar
 string find_element_input(){
     string value;
     cout << endl << "Por favor escribe lo que quieras encontrar, en base a lo que decidiste anteriormente." << endl;
@@ -55,6 +56,23 @@ string find_element_input(){
     getline(cin.ignore(100, '\n'), value);
 
     return value;
+}
+
+// Imprime y toma la opción de como ordenar el archivo
+string archivo_opciones() {
+    cout << endl << "Por favor elige por qué quieres ordenar las películas: " << endl;
+    cout << "1. Por nombre." << endl;
+    cout << "2. Por duración." << endl;
+    cout << "3. Por director" << endl;
+    cout << "4. Por review." << endl;
+    cout << "5. Por año." << endl << endl;
+
+    string opcion;
+
+    cout << "Por favor escribe solo el número sin espacio para que funcione: ";
+    cin >> opcion;
+
+    return opcion;
 }
 
 int main(){
@@ -68,7 +86,7 @@ int main(){
     int opcion = 1;
 
     // Ciclo para que se repita hasta que el usuario eliga opción válida
-    while (opcion >= 1 && opcion <= 7){
+    while (opcion >= 1 && opcion <= 8){
         // Imprimir el menu
         menu_inicial();
 
@@ -120,6 +138,7 @@ int main(){
                 cout << Movies_Yeesus.find_element_menu(5, value);
                 break;
             }
+            // Caso 7 que imprime todas las películas
             case 7: {
                 char descendiente;
                 descendiente = print_order();
@@ -135,10 +154,18 @@ int main(){
                 }
                 break;
             }
+            // Caso 8 que guarda películas ordenadas en un archivo
+            case 8: {
+                // Toma la opcion de la función
+                char reporte_opcion;
+                reporte_opcion = archivo_opciones()[0];
+                Movies_Yeesus.reporte_peliculas_menu(reporte_opcion);
+                break;
+            }
         }
     }
 
     cout << endl << "Perfecto, gracias por usar el programa!" << endl << endl;
-    
+
     return 0;
 }
