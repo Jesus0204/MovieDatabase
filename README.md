@@ -32,7 +32,10 @@ Para este problema uso una lista doblemente ligada (también llamada list en c++
 
 ## SICT0303: Implementa acciones científicas
 ### Consulta de información de estructura
-El programa actualmente tiene la opción de buscar cualquier película que se encuentra en la lista (100 películas) por nombre (opción 2 del menu), duración (opción 3 del menú), director (opción 4 del menú), reviews (opción 5 del menú), año (opción 6 del menú) o imprimir la lista dependiendo de como está ordenada (opción 7 del menú). Adicionalmente, la opción 8 del menú crea un archivo csv donde se guardan las películas ordenadas como quiere el usuario como un tipo reporte (implementado próximamente).
+El programa actualmente tiene la opción de buscar cualquier película que se encuentra en la lista (100 películas) por nombre (opción 2 del menu), duración (opción 3 del menú), director (opción 4 del menú), reviews (opción 5 del menú), año (opción 6 del menú) o imprimir la lista dependiendo de como está ordenada (opción 7 del menú).
 
 ### Lectura de archivos para cargar datos correctamente
 Las películas están cargadas en un archivo llamado Movie_Database.csv, donde al llamar el constructor de MovieDatabase, see registran y agregan a la lista todas las películas. Por lo tanto, aunque la insersión de la estructura de datos sea O(1), como tengo que iterar por todas las líneas del archivo (n), aparte de iterar por cada elemento de cada línea (5 elementos por línea), por lo que el análisis asíntotico de la lectura del archivo sería de O(n * 5). 
+
+### Escritura de archivos para guardar datos correctamente
+El programa tiene una opción en el menú (opción 8) que crea un archivo con todas las películas ordenadas como el usuario las pidió. Para esto, primero se le pregunta al usuario como quiere que su archivo sea deslegado (por que tipo de dato ordenarlo), después se ordena por ese atributo, y finalmente se hace la escritura del archivo. Lo que se pidió ordenar es la primera columna todo el tiempo, y el archivo tiene header.
