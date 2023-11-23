@@ -24,7 +24,9 @@ Busqueda: O(n/2), ya que en el peor de los casos dependiendo de donde inicie la 
 Impresión: O(n), ya que no importa de donde empiezo, tengo que iterar toda la lista para imprimir todos los elementos.
 
 ### Análisis de complejidad de todo el programa 
-La mayoría de mi programa es O(n), ya que en los peores de los casos tiene que iterar la lista, e incluso en la insersión tiene que iterar el archivo de la base de datos aunque la insersión en la estructura es O(1). Lo que sí es un poco peor es el sort, que se como tiene dos ciclos tiene una notación de O(n^2). Como el sort es una gran parte del programa, me inclino a que la complejidad de todo el programa no es ni O(n), ni O(n^2) si no lo que está a la mitad (o sea O(n log n)). Cuando hace el sort si es un poco más lento, pero ese tiempo lo recupera un poco con la estructura que es lineal, entonces tomando el "promedio" de estos dos, da O(n log n), lo cual no esta excelente, pero tampoco está tan horrible. 
+La mayoría de mi programa es O(n), ya que en los peores de los casos tiene que iterar la lista, e incluso en la insersión tiene que iterar el archivo de la base de datos aunque la insersión en la estructura es O(1). Lo que sí es un poco peor es el sort, que se como tiene dos ciclos tiene una notación de O(n^2). Como se tiene a un O(n) y a un O(n^2), el caso promedio del programa sería un θ(n log n), ya que el tiempo que pierde en el sort en el caso promedio lo recupera con la estructura. Sin embargo en el peor de los casos, el programa sería O(n^2), en el caso que no recupere algo de tiempo.
+
+Como el sort es una gran parte del programa, me inclino a que la complejidad de todo el programa no es ni O(n), ni O(n^2) si no lo que está a la mitad (o sea O(n log n)). Cuando hace el sort si es un poco más lento, pero ese tiempo lo recupera un poco con la estructura que es lineal, entonces tomando el "promedio" de estos dos, da O(n log n), lo cual no esta excelente, pero tampoco está tan horrible. 
 
 ## SICT0302: Toma decisiones
 ### Selección de algoritmo de ordenamiento
